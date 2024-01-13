@@ -7,12 +7,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       minlength: [2, 'Минимальная длина поля "name" - 2'],
       maxlength: [30, 'Максимальная длина поля "name" - 30'],
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
     },
     email: {
       type: String,
       unique: true,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
       validate: {
         validator: (v) => validator.isEmail(v),
         message: 'Неправильный формат почты',
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
       select: false,
     },
   },

@@ -5,27 +5,27 @@ const movieSchema = new mongoose.Schema(
   {
     country: {
       type: String,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
     },
     director: {
       type: String,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
     },
     duration: {
       type: Number,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
     },
     year: {
       type: String,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
     },
     description: {
       type: String,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
     },
     image: {
       type: String,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
       validator: {
         validator: (v) => validator.isURL(v),
         message: 'Неправильный формат URL',
@@ -33,7 +33,7 @@ const movieSchema = new mongoose.Schema(
     },
     trailerLink: {
       type: String,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
       validator: {
         validator: (v) => validator.isURL(v),
         message: 'Неправильный формат URL',
@@ -41,7 +41,7 @@ const movieSchema = new mongoose.Schema(
     },
     thumbnail: {
       type: String,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
       validator: {
         validator: (v) => validator.isURL(v),
         message: 'Неправильный формат URL',
@@ -54,15 +54,15 @@ const movieSchema = new mongoose.Schema(
     },
     movieId: {
       type: Number,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
     },
     nameRU: {
       type: String,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
     },
     nameEN: {
       type: String,
-      required: true,
+      required: [true, 'Поле необходимо заполнить'],
     },
   },
   {
