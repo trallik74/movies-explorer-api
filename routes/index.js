@@ -3,12 +3,14 @@ const { createUser, loginUser } = require('../controllers/users');
 const auth = require('../middlewares/auth');
 const errorHandler = require('../middlewares/error-handler');
 const usersRouter = require('./users');
+const moviesRouter = require('./movies');
 const NotFoundError = require('../exeptions/not-found-error');
 
 router.post('/signup', createUser);
 router.post('/signin', loginUser);
 router.use(auth);
 router.use('/users', usersRouter);
+router.use('/movies', moviesRouter);
 router.use('*', (req, res, next) => next(new NotFoundError('Запрашиваемый ресурс не найден')));
 
 router.use(errorHandler);
