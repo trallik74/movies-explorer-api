@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { errors } = require('celebrate');
 const auth = require('../middlewares/auth');
 const { requestLogger, errorLogger } = require('../middlewares/logger');
 const errorHandler = require('../middlewares/error-handler');
@@ -15,6 +16,7 @@ router.use('/movies', moviesRouter);
 router.use('*', (req, res, next) => next(new NotFoundError('Запрашиваемый ресурс не найден')));
 
 router.use(errorLogger);
+router.use(errors());
 router.use(errorHandler);
 
 module.exports = router;
