@@ -69,6 +69,9 @@ const updateUserProfile = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError(err.message));
       }
+      if (err.name === 'MongoServerError' && err.code === 11000) {
+        return next(new ConflictError('Этот email уже используется'));
+      }
       return next(err);
     });
 };
