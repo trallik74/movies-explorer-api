@@ -1,13 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const helmet = require('helmet');
 const appRouter = require('./routes/index');
 
 const { PORT, DB_URL } = require('./utils/config');
 
 const app = express();
-app.use(helmet());
 app.use(express.json());
 app.use(appRouter);
 
