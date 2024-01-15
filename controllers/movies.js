@@ -32,7 +32,7 @@ const deleteMovie = (req, res, next) => {
 };
 
 const readAllMovies = (req, res, next) => movieModel
-  .find({})
+  .find({ owner: req.user._id })
   .populate('owner')
   .then((movie) => res.status(HTTP_STATUS_OK).send(movie))
   .catch(next);
