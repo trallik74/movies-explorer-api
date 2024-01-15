@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { errors } = require('celebrate');
 const helmet = require('helmet');
+const cors = require('../middlewares/cors');
 const auth = require('../middlewares/auth');
 const { requestLogger, errorLogger } = require('../middlewares/logger');
 const errorHandler = require('../middlewares/error-handler');
@@ -9,6 +10,7 @@ const moviesRouter = require('./movies');
 const authRouter = require('./auth');
 const NotFoundError = require('../exeptions/not-found-error');
 
+router.use(cors);
 router.use(requestLogger);
 router.use(helmet());
 router.use('/', authRouter);
