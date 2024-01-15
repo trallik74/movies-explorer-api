@@ -1,7 +1,7 @@
 const { celebrate, Joi } = require('celebrate');
-const { URL_REGEX } = require('../../utils/config');
+const validator = require('validator');
 
-const validateUrl = (value, helper) => (value.match(URL_REGEX) ? value : helper.message('Неправильный формат URL'));
+const validateUrl = (value, helper) => (validator.isURL(value) ? value : helper.message('Неправильный формат URL'));
 
 const valiateCreateMovie = celebrate({
   body: Joi.object().keys({
