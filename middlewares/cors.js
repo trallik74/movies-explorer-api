@@ -3,6 +3,8 @@ const allowedCors = [
   'http://localhost:3001',
   'http://158.160.137.108',
   'https://158.160.137.108',
+  'http://api.trallik-bitfilms.nomoredomainsmonster.ru',
+  'https://api.trallik-bitfilms.nomoredomainsmonster.ru',
 ];
 
 const cors = (req, res, next) => {
