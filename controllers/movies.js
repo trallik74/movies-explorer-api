@@ -6,6 +6,7 @@ const BadRequestError = require('../exeptions/bad-request-error');
 const NotFoundError = require('../exeptions/not-found-error');
 const ForbiddenError = require('../exeptions/forbidden-error');
 const movieModel = require('../models/movie');
+const { MOVIE_REQUEST_MESSAGES } = require('../utils/requestMessage');
 
 const deleteMovie = (req, res, next) => {
   const { movieId } = req.params;
@@ -13,16 +14,18 @@ const deleteMovie = (req, res, next) => {
     .findById(movieId)
     .then((movie) => {
       if (!movie) {
-        return next(new NotFoundError('Фильм с таким идентификатором не найдена'));
+        return next(new NotFoundError(MOVIE_REQUEST_MESSAGES.NotFoundError));
       }
       if (String(movie.owner) !== req.user._id) {
-        return next(new ForbiddenError('Вы не владелец фильма'));
+        return next(new ForbiddenError(MOVIE_REQUEST_MESSAGES.ForbiddenError));
       }
-      return movie.deleteOne().then(() => res.status(HTTP_STATUS_OK).send({ message: 'Фильм удален' }));
+      return movie.deleteOne()
+        .then(() => res.status(HTTP_STATUS_OK)
+          .send({ message: MOVIE_REQUEST_MESSAGES.DeleteSuccess }));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return next(new BadRequestError('Неверный формат идентификатора фильма'));
+        return next(new BadRequestError(MOVIE_REQUEST_MESSAGES.BadRequestError));
       }
       return next(err);
     });

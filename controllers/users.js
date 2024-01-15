@@ -10,18 +10,19 @@ const BadRequestError = require('../exeptions/bad-request-error');
 const NotFoundError = require('../exeptions/not-found-error');
 const UnauthorizedError = require('../exeptions/unauthorized-error');
 const ConflictError = require('../exeptions/conflict-error');
+const { USER_REQUEST_MESSAGES } = require('../utils/requestMessage');
 
 const readCurrentUser = (req, res, next) => userModel
   .findById(req.user._id)
   .then((user) => {
     if (!user) {
-      return next(new NotFoundError('Пользователь с таким идентификатором не найдена'));
+      return next(new NotFoundError(USER_REQUEST_MESSAGES.NotFoundError));
     }
     return res.status(HTTP_STATUS_OK).send(user);
   })
   .catch((err) => {
     if (err.name === 'CastError') {
-      return next(new BadRequestError('Неверный формат идентификатора пользователя'));
+      return next(new BadRequestError(USER_REQUEST_MESSAGES.BadRequestError));
     }
     return next(err);
   });
@@ -41,7 +42,7 @@ const createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'MongoServerError' && err.code === 11000) {
-        return next(new ConflictError('Этот email уже используется'));
+        return next(new ConflictError(USER_REQUEST_MESSAGES.ConflictError));
       }
       if (err.name === 'ValidationError') {
         return next(new BadRequestError(err.message));
@@ -61,7 +62,7 @@ const updateUserProfile = (req, res, next) => {
     )
     .then((user) => {
       if (!user) {
-        return next(new NotFoundError('Пользователь с таким идентификатором не найдена'));
+        return next(new NotFoundError(USER_REQUEST_MESSAGES.NotFoundError));
       }
       return res.status(HTTP_STATUS_OK).send(user);
     })
@@ -70,7 +71,7 @@ const updateUserProfile = (req, res, next) => {
         return next(new BadRequestError(err.message));
       }
       if (err.name === 'MongoServerError' && err.code === 11000) {
-        return next(new ConflictError('Этот email уже используется'));
+        return next(new ConflictError(USER_REQUEST_MESSAGES.ConflictError));
       }
       return next(err);
     });
@@ -82,14 +83,14 @@ const loginUser = (req, res, next) => {
   return userModel.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return next(new UnauthorizedError('Неправильный email или пароль'));
+        return next(new UnauthorizedError(USER_REQUEST_MESSAGES.UnauthorizedError));
       }
       return bcrypt.compare(password, user.password, (err, isMatch) => {
         if (err) {
           throw err;
         }
         if (!isMatch) {
-          return next(new UnauthorizedError('Неправильный email или пароль'));
+          return next(new UnauthorizedError(USER_REQUEST_MESSAGES.UnauthorizedError));
         }
         return res.status(HTTP_STATUS_OK).send({ token: generateWebToken(user._id) });
       });
