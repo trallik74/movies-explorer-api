@@ -1,7 +1,7 @@
-# movies-explorer-api
+# Сервис поиска фильмовmovies-explorer
 
-## Ссылки на проект
+Api: https://api.trallik-bitfilms.nomoredomainsmonster.ru
 
-IP 158.160.137.108
-
-Backend https://api.trallik-bitfilms.nomoredomainsmonster.ru
+## Структура проекта
+- Backend - текущий репозиторий
+- [Frontend](https://github.com/trallik74/movies-explorer-frontend)
